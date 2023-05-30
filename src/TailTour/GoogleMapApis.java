@@ -29,7 +29,7 @@ public class GoogleMapApis {
     
     public static void fetchDataFromTextFile() {
     	
-    	String fileName = "C:\\Users\\1165575\\eclipse-workspace\\TailouredTouristToursProject\\src\\Dataset2.csv"; // Specify the path and name of your text file
+    	String fileName = "C:\\Users\\1165575\\eclipse-workspace\\TailouredTouristToursProject\\src\\DATASETEST.txt"; // Specify the path and name of your text file
 
         try {
         	Connection connection = DriverManager.getConnection(JDBC_URL, DB_USERNAME, DB_PASSWORD);
@@ -37,16 +37,19 @@ public class GoogleMapApis {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] data = line.split(","); // Assuming the data is comma-separated
+                String[] data = line.split(" "); // Assuming the data is comma-separated
 
                 // Prepare the SQL statement
-                String sql = "INSERT INTO mytable (col1, col2, col3) VALUES (?, ?, ?)";
+                String sql = "INSERT INTO dataset (lat1, lon1, lat2,lon2,region,residentType) VALUES (?, ?, ?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(sql);
 
                 // Set the values from the file into the prepared statement
                 statement.setString(1, data[0]);
                 statement.setString(2, data[1]);
                 statement.setString(3, data[2]);
+                statement.setString(4, data[3]);
+                statement.setString(5, data[4]);
+                statement.setString(6, data[5]);
 
                 // Execute the statement
                 statement.executeUpdate();
@@ -68,7 +71,7 @@ public class GoogleMapApis {
     		Connection connection = DriverManager.getConnection(JDBC_URL, DB_USERNAME, DB_PASSWORD);
 
             // Create a SQL statement to fetch addresses, latitudes, and longitudes
-            String sql = "SELECT address, latitude, longitude FROM sitedata";
+            String sql = "SELECT lat1, lon1, lat2, lon2,region,residentType FROM dataset";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             
@@ -119,6 +122,8 @@ public class GoogleMapApis {
             e.printStackTrace();
         }
     }
+    
+    
 
     
  // Haversine formula to calculate distance between two points
@@ -174,7 +179,8 @@ public class GoogleMapApis {
 	public static void main(String[] args) {
 
 		
-		fetchData();
+		//fetchData();
+		fetchDataFromTextFile();
 		
     }
 
