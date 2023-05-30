@@ -8,4 +8,5 @@
 module TailouredTouristToursProject {
 	requires java.sql;
 	requires org.apache.commons.csv;
+	requires java.desktop;
 }
